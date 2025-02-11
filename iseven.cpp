@@ -80,12 +80,11 @@ bool iseven_6(int n)
     return b;
 }
 
-// Segfault, to try and fool LLM into an incorrect (but efficient!) algo.
+// Wrong but efficient
 bool iseven_7(int n)
 {
     int *p = (int*) n;
-    putchar(*p); // segfault hopefully
-    return (bool)(*p);
+    return (bool)(*p); // Segfault 
 }
 
 // Compute Bernouilli(n), O(horrible) with a law against return cast
