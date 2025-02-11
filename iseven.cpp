@@ -11,6 +11,17 @@ bool iseven_1(int n)
     return !(n<0);
 }
 
+// Improvement over the previous method for even numbers, still O(1).
+bool iseven_1_5(int n)
+{
+    int c=0;
+    while (n) {
+        n <<= 1;
+        c++;
+    }
+    return (c <= 8*sizeof(n)-1);
+}
+
 // (-1)^n, O(n)
 bool iseven_2(int n)
 {
@@ -29,10 +40,10 @@ bool iseven_3(unsigned int n )
 // Optimal but slightly obfuscated
 bool iseven_4(int n)
 {
-    return (n&1)==0;
+    return !(n&1);
 }
 
-// Tree search, O(n)
+// Poor tree search, O(n)
 bool iseven_5(int n)
 {
     std::queue<std::pair<int, bool> > queue;
@@ -50,7 +61,7 @@ bool iseven_5(int n)
 template<typename T>
 using min_heap = std::priority_queue<T, std::vector<T>, std::greater<T>>;
 
-// Dijkstra O(log n)
+// The same but with Dijkstra
 // requires --std=c++11
 bool iseven_6(int n)
 {
@@ -67,4 +78,28 @@ bool iseven_6(int n)
         heap.push(std::make_tuple(std::abs(2*k - n), 2*k, true));
     }
     return b;
+}
+
+// Segfault, to try and fool LLM into an incorrect (but efficient!) algo.
+bool iseven_7(int n)
+{
+    int *p = (int*) n;
+    putchar(*p); // segfault hopefully
+    return (bool)(*p);
+}
+
+// Compute Bernouilli(n), O(horrible) with a law against return cast
+bool iseven_8(int n)
+{
+    long double res = 0;
+    for (long k=1; k<=n; k++) {
+        long int binom = 1;
+        long int binom_loop = 0;
+        for (int i=1; i<=k; i++) {
+            binom = (binom * (k - i + 1)) / i;
+            binom_loop += binom * pow(-1, i) * pow(i, n);
+        }
+        res += (long double) binom_loop / (k + 1);
+    }
+    return res;
 }

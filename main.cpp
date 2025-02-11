@@ -8,7 +8,7 @@ int main(int argc, char* argv[]) {
     }
 
     int n = std::stoi(argv[1]);
-    if (iseven_6(n)) {
+    if (iseven_8(n)) {
         std::cout << n<< " is even." << std::endl;
     } else {
         std::cout << n<< " is odd." << std::endl;
